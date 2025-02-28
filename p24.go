@@ -1,4 +1,4 @@
-package p24
+package przelewy24
 
 import (
 	"bytes"
@@ -11,12 +11,12 @@ import (
 	"time"
 )
 
-type App interface {
+type app interface {
 	RegisterTransaction()
 }
 
-type P24 struct {
-	App
+type p24 struct {
+	app
 
 	sandbox    bool
 	merchantId int
@@ -71,8 +71,8 @@ type RegisterTransactionResponse struct {
 	Code         int    `json:"code"`
 }
 
-func New(config Config) *P24 {
-	p24 := &P24{
+func New(config Config) *p24 {
+	p24 := &p24{
 		sandbox:    config.Sandbox,
 		merchantId: config.MerchantId,
 		posId:      config.PosId,
@@ -84,7 +84,7 @@ func New(config Config) *P24 {
 }
 
 // RegisterTransaction returns an url used to finish a registered transaction.
-func (p24 *P24) RegisterTransaction(data TransactionParams) (string, error) {
+func (p24 *p24) RegisterTransaction(data TransactionParams) (string, error) {
 	data.MerchantId = p24.merchantId
 	data.PosId = p24.posId
 
@@ -135,11 +135,9 @@ func (p24 *P24) RegisterTransaction(data TransactionParams) (string, error) {
 	} else {
 		return "", errors.New(fmt.Sprintf("Response code: %d\nError: %s", respBody.Code, respBody.Error))
 	}
-
-	//
 }
 
-func (p24 *P24) VerifyTransaction(data NotificationParams) error {
+func (p24 *p24) VerifyTransaction(data NotificationParams) error {
 	payload := struct {
 		MerchantId int    `json:"merchantId"`
 		PosId      int    `json:"posId"`
