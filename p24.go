@@ -135,6 +135,8 @@ func (p24 *P24) RegisterTransaction(data TransactionParams) (string, error) {
 	} else {
 		return "", errors.New(fmt.Sprintf("Response code: %d\nError: %s", respBody.Code, respBody.Error))
 	}
+
+	//
 }
 
 func (p24 *P24) VerifyTransaction(data NotificationParams) error {
