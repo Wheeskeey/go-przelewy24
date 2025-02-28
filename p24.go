@@ -1,4 +1,4 @@
-package go_przelewy24
+package p24
 
 import (
 	"bytes"
